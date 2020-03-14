@@ -2,10 +2,10 @@
   "ret": 1,
   "apiver": 9,
   "name": "YYSEmulator",
-  "version": "1.0.0",
-  "version_id": 1,
+  "version": "1.0.1",
+  "version_id": 2,
   "author": "Lemon",
-  "description": "阴阳师抽卡模拟器",
+  "description": "抽卡模拟器",
   "event": [
     {
       "id": 1, // 事件ID

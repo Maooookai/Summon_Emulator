@@ -18,11 +18,16 @@ public class Yysemulator extends JcqAppAbstract implements ICQVer, IMsg, IReques
     public static String[] SSR ={"大天狗","酒吞童子","荒川之主","阎魔","小鹿男","茨木童子","青行灯","妖刀姬","一目连","花鸟卷","辉夜姬","荒","彼岸花","雪童子","山风","玉藻前","御馔津","面灵气","鬼切","白藏主","八岐大蛇","不知火","大岳丸","泷夜叉姬","云外镜","鬼童丸","缘结神"};
     public static String[] SR ={"桃花妖","雪女","鬼使白","鬼使黑","孟婆","犬神","骨女","鬼女红叶","跳跳哥哥","傀儡师","海坊主","判官","凤凰火","吸血姬","妖狐","妖琴师","食梦貘","清姬","镰鼬","姑获鸟","二口女","白狼","樱花妖","惠比寿","络新妇","般若","青坊主","夜叉","黑童子","白童子","烟烟罗","金鱼姬","鸩","以津真天","匣中少女","书翁","百目鬼","追月神","熏","弈","猫掌柜","於菊虫","一反木绵","入殓师","化鲸","久次良","蟹姬","纸舞","星熊童子"};
     public static String[] R ={"三尾狐","座敷童子","鲤鱼精","九命猫","狸猫","河童","童男","童女","饿鬼","巫蛊师","鸦天狗","食发鬼","武士之灵","雨女","跳跳弟弟","跳跳妹妹","兵俑","丑时之女","独眼小僧","铁鼠","椒图","管狐","山兔","萤草","山童","首无","觉","青蛙瓷器","古笼火","虫师"};
+    public static String[] six_stars = {"刻俄柏","阿","煌","莫斯提马","麦哲伦","赫拉格","黑","陈","斯卡蒂","银灰","塞雷娅","星熊","夜莺","闪灵","安洁莉娜","艾雅法拉","伊芙利特","推进之王","能天使"};
+    public static String[] five_stars = {"惊蛰","吽","灰猴","布洛卡","苇草","槐琥","送葬人","星极","格劳克斯","诗怀雅","夜魔","食铁兽","狮蝎","空","真理","初雪","崖心","守林人","普罗旺斯","可颂","雷蛇","红","临光","华法琳","赫默","梅尔","天火","阿米娅","陨星","白金","蓝毒","幽灵鲨","拉普兰德","芙兰卡","德克萨斯","凛冬","白面鸮"};
+    public static String[] four_stars = {"安比尔","梅","红云","坚雷","桃金娘","苏苏洛","格雷伊","猎蜂","阿消","地灵","深海色","谷米","蛇屠箱","角峰","调香师","末药","暗索","砾","慕斯","艾丝黛尔","霜叶","缠丸","杜宾","红豆","清道夫","讯使","白雪","流星","杰西卡","远山","夜烟"};
+    public static String[] three_stars = {"斑点","泡普卡","月见夜","空爆","梓兰","史都华德","安塞尔","芙蓉","炎熔","安德切尔","克洛丝","米格鲁","卡缇","玫兰莎","翎羽","香草","芬"};
 
-        static int Counter(int total) {
+    static int Counter(int total) {
             Random random = new Random();
             return random.nextInt(total);
         }
+
 
         static String SSRPicker(){
             int result = Counter(SSR.length);
@@ -44,6 +49,28 @@ public class Yysemulator extends JcqAppAbstract implements ICQVer, IMsg, IReques
             return ("你抽到了R "+R[result]);
         }
 
+
+        static String Six_Stars_Picker(){
+            int result = Counter(six_stars.length);
+            return ("你抽到了★★★★★★ "+six_stars[result]);
+        }
+
+        static String Five_Stars_Picker(){
+            int result = Counter(five_stars.length);
+            return ("你抽到了★★★★★ "+five_stars[result]);
+        }
+
+        static String Four_Stars_Picker(){
+            int result = Counter(four_stars.length);
+            return ("你抽到了★★★★ "+four_stars[result]);
+         }
+
+        static String Three_Stars_Picker(){
+            int result = Counter(three_stars.length);
+            return ("你抽到了★★★ "+three_stars[result]);
+        }
+
+                       /*抽卡部分*/
         static String OneShot() throws IOException {
             Random getcard = new Random();
             String return_result;
@@ -59,7 +86,35 @@ public class Yysemulator extends JcqAppAbstract implements ICQVer, IMsg, IReques
             return return_result;
         }
 
+    static String OneShot2x() throws IOException {
+        Random getcard = new Random();
+        String return_result;
+        int result = getcard.nextInt(1000);
+        if (result < 762)
+            return_result = RPicker();
+        else if (result < 962)
+            return_result = SRPicker();
+        else if (result < 987)
+            return_result = SSRPicker();
+        else
+            return_result = SPPicker();
+        return return_result;
+    }
 
+    static String OneShot_Arknights() throws IOException {
+        Random getcard = new Random();
+        String return_result;
+        int result = getcard.nextInt(1000);
+        if (result < 420)
+            return_result = Three_Stars_Picker();
+        else if (result < 900)
+            return_result = Four_Stars_Picker();
+        else if (result < 980)
+            return_result = Five_Stars_Picker();
+        else
+            return_result = Six_Stars_Picker();
+        return return_result;
+    }
 
     public static void main(String[] args) throws IOException{
         CQ = new CQDebug();
@@ -162,11 +217,8 @@ public class Yysemulator extends JcqAppAbstract implements ICQVer, IMsg, IReques
      * @param font          字体
      * @return 关于返回值说明, 见 {@link #privateMsg 私聊消息} 的方法
      */
-    public int groupMsg(int subType, int msgId, long fromGroup, long fromQQ, String fromAnonymous, String msg,
-                        int font) {
-        // 如果消息来自匿名者
+    public int groupMsg(int subType, int msgId, long fromGroup, long fromQQ, String fromAnonymous, String msg, int font) {
         if (fromQQ == 80000000L && !fromAnonymous.equals("")) {
-            // 将匿名用户信息放到 anonymous 变量中
             Anonymous anonymous = CQ.getAnonymous(fromAnonymous);
         }
 
@@ -184,13 +236,15 @@ public class Yysemulator extends JcqAppAbstract implements ICQVer, IMsg, IReques
 
         if (msg.equals("抽卡")){
             try {
-                result = OneShot();
+                result = OneShot2x();
+                //result = OneShot();
             } catch (Exception e) {
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
             }
             CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + result);
         }
+
 
         if (msg.equals("十连")){
             try {
@@ -204,6 +258,36 @@ public class Yysemulator extends JcqAppAbstract implements ICQVer, IMsg, IReques
                 result8 = OneShot();
                 result9 = OneShot();
                 result10 = OneShot();
+            } catch (Exception e) {
+                e.printStackTrace();
+                CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
+            }
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10);
+        }
+
+
+        if (msg.equals("寻访")){
+            try {
+                result = OneShot_Arknights();
+            } catch (Exception e) {
+                e.printStackTrace();
+                CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
+            }
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + result);
+        }
+
+        if (msg.equals("十连寻访")){
+            try {
+                result1 = OneShot_Arknights();
+                result2 = OneShot_Arknights();
+                result3 = OneShot_Arknights();
+                result4 = OneShot_Arknights();
+                result5 = OneShot_Arknights();
+                result6 = OneShot_Arknights();
+                result7 = OneShot_Arknights();
+                result8 = OneShot_Arknights();
+                result9 = OneShot_Arknights();
+                result10 = OneShot_Arknights();
             } catch (Exception e) {
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
