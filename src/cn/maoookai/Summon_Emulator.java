@@ -12,7 +12,7 @@ import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
 
 
-public class Yysemulator extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
+public class Summon_Emulator extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 
     public static String[] SP ={"少羽大天狗","炼狱茨木童子","稻荷神御馔津","苍风一目连","赤影妖刀姬","御怨般若","骁浪荒川之主","烬天玉藻前","鬼王酒吞童子","天剑韧心鬼切","聆海金鱼姬"};
     public static String[] SSR ={"大天狗","酒吞童子","荒川之主","阎魔","小鹿男","茨木童子","青行灯","妖刀姬","一目连","花鸟卷","辉夜姬","荒","彼岸花","雪童子","山风","玉藻前","御馔津","面灵气","鬼切","白藏主","八岐大蛇","不知火","大岳丸","泷夜叉姬","云外镜","鬼童丸","缘结神"};
@@ -72,54 +72,54 @@ public class Yysemulator extends JcqAppAbstract implements ICQVer, IMsg, IReques
 
                        /*抽卡部分*/
         static String OneShot() throws IOException {
-            Random getcard = new Random();
-            String return_result;
-            int result = getcard.nextInt(1000);
+            Random gotCard = new Random();
+            String oneResult;
+            int result = gotCard.nextInt(1000);
             if (result < 787)
-                return_result = RPicker();
+                oneResult = RPicker();
             else if (result < 987)
-                return_result = SRPicker();
+                oneResult = SRPicker();
             else if (result < 997)
-                return_result = SSRPicker();
+                oneResult = SSRPicker();
             else
-                return_result = SPPicker();
-            return return_result;
+                oneResult = SPPicker();
+            return oneResult;
         }
 
     static String OneShot2x() throws IOException {
-        Random getcard = new Random();
-        String return_result;
-        int result = getcard.nextInt(1000);
+        Random gotCard = new Random();
+        String oneResult;
+        int result = gotCard.nextInt(1000);
         if (result < 762)
-            return_result = RPicker();
+            oneResult = RPicker();
         else if (result < 962)
-            return_result = SRPicker();
+            oneResult = SRPicker();
         else if (result < 987)
-            return_result = SSRPicker();
+            oneResult = SSRPicker();
         else
-            return_result = SPPicker();
-        return return_result;
+            oneResult = SPPicker();
+        return oneResult;
     }
 
     static String OneShot_Arknights() throws IOException {
-        Random getcard = new Random();
-        String return_result;
-        int result = getcard.nextInt(1000);
+        Random gotCard = new Random();
+        String oneResult;
+        int result = gotCard.nextInt(1000);
         if (result < 420)
-            return_result = Three_Stars_Picker();
+            oneResult = Three_Stars_Picker();
         else if (result < 900)
-            return_result = Four_Stars_Picker();
+            oneResult = Four_Stars_Picker();
         else if (result < 980)
-            return_result = Five_Stars_Picker();
+            oneResult = Five_Stars_Picker();
         else
-            return_result = Six_Stars_Picker();
-        return return_result;
+            oneResult = Six_Stars_Picker();
+        return oneResult;
     }
 
     public static void main(String[] args) throws IOException{
         CQ = new CQDebug();
         CQ.logInfo("[JCQ] TEST Demo", "测试启动");
-        Yysemulator yys = new Yysemulator();
+        Summon_Emulator yys = new Summon_Emulator();
         yys.startup();// 程序运行开始 调用应用初始化方法
         yys.enable();// 程序初始化完成后，启用应用，让应用正常工作
         //System.out.println(OneShot());
@@ -127,7 +127,7 @@ public class Yysemulator extends JcqAppAbstract implements ICQVer, IMsg, IReques
     }
 
     public String appInfo() {
-        String AppID = "cn.maoookai.yysemulator";
+        String AppID = "cn.maoookai.summon_emulator";
         return CQAPIVER + "," + AppID;
     }
 

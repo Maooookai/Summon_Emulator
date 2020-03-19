@@ -1,18 +1,18 @@
 {
   "ret": 1,
   "apiver": 9,
-  "name": "YYSEmulator",
-  "version": "1.0.1",
-  "version_id": 2,
+  "name": "Summon_Emulator",
+  "version": "1.0.2",
+  "version_id": 3,
   "author": "Lemon",
   "description": "抽卡模拟器",
   "event": [
     {
-      "id": 1, // 事件ID
-      "type": 21, // 事件类型
-      "name": "私聊消息处理", // 事件名称
-      "function": "privateMsg", // 事件对应函数
-      "priority": 30000 // 事件优先级(参见 cq.im/deveventpriority)
+      "id": 1,
+      "type": 21,
+      "name": "私聊消息处理",
+      "function": "privateMsg",
+      "priority": 30000
     },
     {
       "id": 2,
@@ -106,28 +106,20 @@
       "function": "disable"
     }
   ],
-  "menu": [ // 设置菜单（发布前请删除无用菜单，如果无需设置菜单请全部删除）
-    {
-      "name": "设置A", //菜单名称
-      "function": "menuA" //菜单对应函数
-    },
-    {
-      "name": "设置B",
-      "function": "menuB"
-    }
+  "menu": [
   ],
   "status": [
   ],
   "auth": [
-    101, //发送群消息			sendGroupMsg
-    103, //发送讨论组消息		sendDiscussMsg
-    106, //发送私聊消息		sendPrivateMsg
-    130, //取群成员信息		getGroupMemberInfoV2 / getGroupMemberInfo
-    131, //取陌生人信息		getStrangerInfo
-    140, //置讨论组退出		setDiscussLeave
-    150, //置好友添加请求		setFriendAddRequest
-    151, //置群添加请求		setGroupAddRequest
-    160, //取群成员列表		getGroupMemberList
-    161, //取群列表			getGroupList
+    101,
+    103,
+    106,
+    130,
+    131,
+    140,
+    150,
+    151,
+    160,
+    161
   ]
 }
