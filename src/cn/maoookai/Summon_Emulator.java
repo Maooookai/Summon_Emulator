@@ -22,6 +22,7 @@ public class Summon_Emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     public static String[] five_stars = {"惊蛰","吽","灰猴","布洛卡","苇草","槐琥","送葬人","星极","格劳克斯","诗怀雅","夜魔","食铁兽","狮蝎","空","真理","初雪","崖心","守林人","普罗旺斯","可颂","雷蛇","红","临光","华法琳","赫默","梅尔","天火","阿米娅","陨星","白金","蓝毒","幽灵鲨","拉普兰德","芙兰卡","德克萨斯","凛冬","白面鸮"};
     public static String[] four_stars = {"安比尔","梅","红云","坚雷","桃金娘","苏苏洛","格雷伊","猎蜂","阿消","地灵","深海色","谷米","蛇屠箱","角峰","调香师","末药","暗索","砾","慕斯","艾丝黛尔","霜叶","缠丸","杜宾","红豆","清道夫","讯使","白雪","流星","杰西卡","远山","夜烟"};
     public static String[] three_stars = {"斑点","泡普卡","月见夜","空爆","梓兰","史都华德","安塞尔","芙蓉","炎熔","安德切尔","克洛丝","米格鲁","卡缇","玫兰莎","翎羽","香草","芬"};
+    public static String helpMessage = "/n一个小动物聊天机器人/n抽卡仅供娱乐/n发送十连或者单抽即可抽卡！/n更多描述待补充";
 
     static int Counter(int total) {
             Random random = new Random();
@@ -131,14 +132,6 @@ public class Summon_Emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         return CQAPIVER + "," + AppID;
     }
 
-    /**
-     * 酷Q启动 (Type=1001)<br>
-     * 本方法会在酷Q【主线程】中被调用。<br>
-     * 请在这里执行插件初始化代码。<br>
-     * 请务必尽快返回本子程序，否则会卡住其他插件以及主程序的加载。
-     *
-     * @return 请固定返回0
-     */
     public int startup() {
         // 获取应用数据目录(无需储存数据时，请将此行注释)
         String appDirectory = CQ.getAppDirectory();
@@ -147,76 +140,26 @@ public class Summon_Emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         return 0;
     }
 
-    /**
-     * 酷Q退出 (Type=1002)<br>
-     * 本方法会在酷Q【主线程】中被调用。<br>
-     * 无论本应用是否被启用，本函数都会在酷Q退出前执行一次，请在这里执行插件关闭代码。
-     *
-     * @return 请固定返回0，返回后酷Q将很快关闭，请不要再通过线程等方式执行其他代码。
-     */
     public int exit() {
         return 0;
     }
 
-    /**
-     * 应用已被启用 (Type=1003)<br>
-     * 当应用被启用后，将收到此事件。<br>
-     * 如果酷Q载入时应用已被启用，则在 {@link #startup startup}(Type=1001,酷Q启动) 被调用后，本函数也将被调用一次。<br>
-     * 如非必要，不建议在这里加载窗口。
-     *
-     * @return 请固定返回0。
-     */
     public int enable() {
         enable = true;
         return 0;
     }
 
-    /**
-     * 应用将被停用 (Type=1004)<br>
-     * 当应用被停用前，将收到此事件。<br>
-     * 如果酷Q载入时应用已被停用，则本函数【不会】被调用。<br>
-     * 无论本应用是否被启用，酷Q关闭前本函数都【不会】被调用。
-     *
-     * @return 请固定返回0。
-     */
     public int disable() {
         enable = false;
         return 0;
     }
 
-    /**
-     * 私聊消息 (Type=21)<br>
-     * 本方法会在酷Q【线程】中被调用。<br>
-     *
-     * @param subType 子类型，11/来自好友 1/来自在线状态 2/来自群 3/来自讨论组
-     * @param msgId   消息ID
-     * @param fromQQ  来源QQ
-     * @param msg     消息内容
-     * @param font    字体
-     * @return 返回值*不能*直接返回文本 如果要回复消息，请调用api发送<br>
-     * 这里 返回  {@link IMsg#MSG_INTERCEPT MSG_INTERCEPT} - 截断本条消息，不再继续处理<br>
-     * 注意：应用优先级设置为"最高"(10000)时，不得使用本返回值<br>
-     * 如果不回复消息，交由之后的应用/过滤器处理，这里 返回  {@link IMsg#MSG_IGNORE MSG_IGNORE} - 忽略本条消息
-     */
     public int privateMsg(int subType, int msgId, long fromQQ, String msg, int font) {
         // 这里处理消息
         //CQ.sendPrivateMsg(fromQQ, "你发送了这样的消息：" + msg + "\n来自Java插件");
         return MSG_IGNORE;
     }
 
-    /**
-     * 群消息 (Type=2)<br>
-     * 本方法会在酷Q【线程】中被调用。<br>
-     *
-     * @param subType       子类型，目前固定为1
-     * @param msgId         消息ID
-     * @param fromGroup     来源群号
-     * @param fromQQ        来源QQ号
-     * @param fromAnonymous 来源匿名者
-     * @param msg           消息内容
-     * @param font          字体
-     * @return 关于返回值说明, 见 {@link #privateMsg 私聊消息} 的方法
-     */
     public int groupMsg(int subType, int msgId, long fromGroup, long fromQQ, String fromAnonymous, String msg, int font) {
         if (fromQQ == 80000000L && !fromAnonymous.equals("")) {
             Anonymous anonymous = CQ.getAnonymous(fromAnonymous);
@@ -295,18 +238,10 @@ public class Summon_Emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10);
         }
 
-        // 解析CQ码案例 如：[CQ:at,qq=100000]
-        // 解析CQ码 常用变量为 CC(CQCode) 此变量专为CQ码这种特定格式做了解析和封装
-        // CC.analysis();// 此方法将CQ码解析为可直接读取的对象
-        // 解析消息中的QQID
-        //long qqId = CC.getAt(msg);// 此方法为简便方法，获取第一个CQ:at里的QQ号，错误时为：-1000
-        //List<Long> qqIds = CC.getAts(msg); // 此方法为获取消息中所有的CQ码对象，错误时返回 已解析的数据
-        // 解析消息中的图片
-        //CQImage image = CC.getCQImage(msg);// 此方法为简便方法，获取第一个CQ:image里的图片数据，错误时打印异常到控制台，返回 null
-        //List<CQImage> images = CC.getCQImages(msg);// 此方法为获取消息中所有的CQ图片数据，错误时打印异常到控制台，返回 已解析的数据
+        if(msg.equals("关于")){
+            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+helpMessage);
+        }
 
-        // 这里处理消息
-        //CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你发送了这样的消息：" + msg + "\n来自Java插件");
         return MSG_IGNORE;
     }
 
