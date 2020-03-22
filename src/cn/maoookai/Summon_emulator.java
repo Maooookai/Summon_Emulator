@@ -1,7 +1,6 @@
 package cn.maoookai;
 import java.io.*;
 import java.util.Random;
-import javax.swing.JOptionPane;
 
 import com.sobte.cqp.jcq.entity.Anonymous;
 import com.sobte.cqp.jcq.entity.CQDebug;
@@ -12,7 +11,7 @@ import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
 
 
-public class Summon_Emulator extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
+public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 
     public static String[] SP ={"少羽大天狗","炼狱茨木童子","稻荷神御馔津","苍风一目连","赤影妖刀姬","御怨般若","骁浪荒川之主","烬天玉藻前","鬼王酒吞童子","天剑韧心鬼切","聆海金鱼姬"};
     public static String[] SSR ={"大天狗","酒吞童子","荒川之主","阎魔","小鹿男","茨木童子","青行灯","妖刀姬","一目连","花鸟卷","辉夜姬","荒","彼岸花","雪童子","山风","玉藻前","御馔津","面灵气","鬼切","白藏主","八岐大蛇","不知火","大岳丸","泷夜叉姬","云外镜","鬼童丸","缘结神"};
@@ -120,7 +119,7 @@ public class Summon_Emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     public static void main(String[] args) throws IOException{
         CQ = new CQDebug();
         CQ.logInfo("[JCQ] TEST Demo", "测试启动");
-        Summon_Emulator yys = new Summon_Emulator();
+        Summon_emulator yys = new Summon_emulator();
         yys.startup();// 程序运行开始 调用应用初始化方法
         yys.enable();// 程序初始化完成后，启用应用，让应用正常工作
         //System.out.println(OneShot());
@@ -191,16 +190,16 @@ public class Summon_Emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         if (msg.equals("十连")){
             try {
-                result1 = OneShot();
-                result2 = OneShot();
-                result3 = OneShot();
-                result4 = OneShot();
-                result5 = OneShot();
-                result6 = OneShot();
-                result7 = OneShot();
-                result8 = OneShot();
-                result9 = OneShot();
-                result10 = OneShot();
+                result1 = OneShot2x();
+                result2 = OneShot2x();
+                result3 = OneShot2x();
+                result4 = OneShot2x();
+                result5 = OneShot2x();
+                result6 = OneShot2x();
+                result7 = OneShot2x();
+                result8 = OneShot2x();
+                result9 = OneShot2x();
+                result10 = OneShot2x();
             } catch (Exception e) {
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
