@@ -31,43 +31,43 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         static String SSRPicker(){
             int result = Counter(SSR.length);
-            return ("你抽到了SSR "+SSR[result]);
+            return ("SSR "+SSR[result]);
         }
 
         static String SPPicker(){
             int result = Counter(SP.length);
-            return ("你抽到了SP "+SP[result]);
+            return ("SP  "+SP[result]);
         }
 
         static String SRPicker(){
             int result = Counter(SR.length);
-            return ("你抽到了SR "+SR[result]);
+            return ("SR  "+SR[result]);
         }
 
         static String RPicker(){
             int result = Counter(R.length);
-            return ("你抽到了R "+R[result]);
+            return ("R   "+R[result]);
         }
 
 
         static String Six_Stars_Picker(){
             int result = Counter(six_stars.length);
-            return ("你抽到了★★★★★★ "+six_stars[result]);
+            return ("★★★★★★ "+six_stars[result]);
         }
 
         static String Five_Stars_Picker(){
             int result = Counter(five_stars.length);
-            return ("你抽到了★★★★★ "+five_stars[result]);
+            return ("★★★★★ "+five_stars[result]);
         }
 
         static String Four_Stars_Picker(){
             int result = Counter(four_stars.length);
-            return ("你抽到了★★★★ "+four_stars[result]);
+            return ("★★★★ "+four_stars[result]);
          }
 
         static String Three_Stars_Picker(){
             int result = Counter(three_stars.length);
-            return ("你抽到了★★★ "+three_stars[result]);
+            return ("★★★ "+three_stars[result]);
         }
 
                        /*抽卡部分*/
@@ -184,7 +184,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
             }
-            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + result);
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你抽到了 " + result);
         }
 
 
@@ -204,7 +204,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
             }
-            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10);
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你的十连结果为... " + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10);
         }
 
 
@@ -215,7 +215,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
             }
-            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + result);
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你抽到了 " + result);
         }
 
         if (msg.equals("十连寻访")){
@@ -234,7 +234,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
             }
-            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10);
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你的十连结果为... " + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10);
         }
 
         if(msg.equals("关于")){
