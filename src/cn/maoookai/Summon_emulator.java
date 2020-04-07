@@ -13,7 +13,7 @@ import com.sobte.cqp.jcq.event.JcqAppAbstract;
 
 public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 
-    public static String[] SP ={"少羽大天狗","炼狱茨木童子","稻荷神御馔津","苍风一目连","赤影妖刀姬","御怨般若","骁浪荒川之主","烬天玉藻前","鬼王酒吞童子","天剑韧心鬼切","聆海金鱼姬"};
+    public static String[] SP ={"少羽大天狗","炼狱茨木童子","稻荷神御馔津","苍风一目连","赤影妖刀姬","御怨般若","骁浪荒川之主","烬天玉藻前","鬼王酒吞童子","天剑韧心鬼切","聆海金鱼姬","浮世青行灯"};
     public static String[] SSR ={"大天狗","酒吞童子","荒川之主","阎魔","小鹿男","茨木童子","青行灯","妖刀姬","一目连","花鸟卷","辉夜姬","荒","彼岸花","雪童子","山风","玉藻前","御馔津","面灵气","鬼切","白藏主","八岐大蛇","不知火","大岳丸","泷夜叉姬","云外镜","鬼童丸","缘结神"};
     public static String[] SR ={"桃花妖","雪女","鬼使白","鬼使黑","孟婆","犬神","骨女","鬼女红叶","跳跳哥哥","傀儡师","海坊主","判官","凤凰火","吸血姬","妖狐","妖琴师","食梦貘","清姬","镰鼬","姑获鸟","二口女","白狼","樱花妖","惠比寿","络新妇","般若","青坊主","夜叉","黑童子","白童子","烟烟罗","金鱼姬","鸩","以津真天","匣中少女","书翁","百目鬼","追月神","熏","弈","猫掌柜","於菊虫","一反木绵","入殓师","化鲸","久次良","蟹姬","纸舞","星熊童子"};
     public static String[] R ={"三尾狐","座敷童子","鲤鱼精","九命猫","狸猫","河童","童男","童女","饿鬼","巫蛊师","鸦天狗","食发鬼","武士之灵","雨女","跳跳弟弟","跳跳妹妹","兵俑","丑时之女","独眼小僧","铁鼠","椒图","管狐","山兔","萤草","山童","首无","觉","青蛙瓷器","古笼火","虫师"};
@@ -21,7 +21,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     public static String[] five_stars = {"惊蛰","吽","灰猴","布洛卡","苇草","槐琥","送葬人","星极","格劳克斯","诗怀雅","夜魔","食铁兽","狮蝎","空","真理","初雪","崖心","守林人","普罗旺斯","可颂","雷蛇","红","临光","华法琳","赫默","梅尔","天火","阿米娅","陨星","白金","蓝毒","幽灵鲨","拉普兰德","芙兰卡","德克萨斯","凛冬","白面鸮"};
     public static String[] four_stars = {"安比尔","梅","红云","坚雷","桃金娘","苏苏洛","格雷伊","猎蜂","阿消","地灵","深海色","谷米","蛇屠箱","角峰","调香师","末药","暗索","砾","慕斯","艾丝黛尔","霜叶","缠丸","杜宾","红豆","清道夫","讯使","白雪","流星","杰西卡","远山","夜烟"};
     public static String[] three_stars = {"斑点","泡普卡","月见夜","空爆","梓兰","史都华德","安塞尔","芙蓉","炎熔","安德切尔","克洛丝","米格鲁","卡缇","玫兰莎","翎羽","香草","芬"};
-    public static String helpMessage = "/n一个小动物聊天机器人/n抽卡仅供娱乐/n发送十连或者单抽即可抽卡！/n更多描述待补充";
+    public static String helpMessage = "一个小动物聊天机器人，抽卡仅供娱乐，发送十连或者单抽即可抽卡！更多描述待补充...";
 
     static int Counter(int total) {
             Random random = new Random();
@@ -31,43 +31,43 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         static String SSRPicker(){
             int result = Counter(SSR.length);
-            return ("SSR "+SSR[result]);
+            return (SSR[result]);
         }
 
         static String SPPicker(){
             int result = Counter(SP.length);
-            return ("SP  "+SP[result]);
+            return (SP[result]);
         }
 
         static String SRPicker(){
             int result = Counter(SR.length);
-            return ("SR  "+SR[result]);
+            return (SR[result]);
         }
 
         static String RPicker(){
             int result = Counter(R.length);
-            return ("R   "+R[result]);
+            return (R[result]);
         }
 
 
         static String Six_Stars_Picker(){
             int result = Counter(six_stars.length);
-            return ("★★★★★★ "+six_stars[result]);
+            return ("★★★★★★"+'\t'+six_stars[result]);
         }
 
         static String Five_Stars_Picker(){
             int result = Counter(five_stars.length);
-            return ("★★★★★ "+five_stars[result]);
+            return ("★★★★★"+'\t'+five_stars[result]);
         }
 
         static String Four_Stars_Picker(){
             int result = Counter(four_stars.length);
-            return ("★★★★ "+four_stars[result]);
+            return ("★★★★"+'\t'+four_stars[result]);
          }
 
         static String Three_Stars_Picker(){
             int result = Counter(three_stars.length);
-            return ("★★★ "+three_stars[result]);
+            return ("★★★"+'\t'+three_stars[result]);
         }
 
                        /*抽卡部分*/
@@ -76,13 +76,13 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             String oneResult;
             int result = gotCard.nextInt(1000);
             if (result < 787)
-                oneResult = RPicker();
+                oneResult = "R"+'\t'+RPicker();
             else if (result < 987)
-                oneResult = SRPicker();
+                oneResult = "SR"+'\t'+SRPicker();
             else if (result < 997)
-                oneResult = SSRPicker();
+                oneResult = "SSR"+'\t'+SSRPicker();
             else
-                oneResult = SPPicker();
+                oneResult = "SP"+'\t'+SPPicker();
             return oneResult;
         }
 
@@ -116,12 +116,29 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         return oneResult;
     }
 
+    static String OneShot_HowManyTimes(){
+        Random gotCard = new Random();
+        String oneResult;
+        int result = gotCard.nextInt(1000);
+        if (result < 787)
+            oneResult = RPicker();
+        else if (result < 987)
+            oneResult = SRPicker();
+        else if (result < 997)
+            oneResult = SSRPicker();
+        else
+            oneResult = SPPicker();
+        return oneResult;
+    }
+
+
     public static void main(String[] args) throws IOException{
         CQ = new CQDebug();
         CQ.logInfo("[JCQ] TEST Demo", "测试启动");
         Summon_emulator yys = new Summon_emulator();
         yys.startup();// 程序运行开始 调用应用初始化方法
         yys.enable();// 程序初始化完成后，启用应用，让应用正常工作
+        //yys.groupMsg(0,10001,123456,1225455,"","我要抽浮世青行灯",0);
         //System.out.println(OneShot());
         yys.exit();// 最后程序运行结束，调用exit方法
     }
@@ -190,7 +207,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         if (msg.equals("十连")){
             try {
-                result1 = OneShot2x();
+                /*result1 = OneShot2x();
                 result2 = OneShot2x();
                 result3 = OneShot2x();
                 result4 = OneShot2x();
@@ -199,7 +216,18 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 result7 = OneShot2x();
                 result8 = OneShot2x();
                 result9 = OneShot2x();
-                result10 = OneShot2x();
+                result10 = OneShot2x();*/
+                //概率up
+                result1 = OneShot();
+                result2 = OneShot();
+                result3 = OneShot();
+                result4 = OneShot();
+                result5 = OneShot();
+                result6 = OneShot();
+                result7 = OneShot();
+                result8 = OneShot();
+                result9 = OneShot();
+                result10 = OneShot();
             } catch (Exception e) {
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
@@ -237,8 +265,21 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你的十连结果为... " + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10);
         }
 
-        if(msg.equals("关于")){
-            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+helpMessage);
+        if (msg.equals("关于")){
+            CQ.sendGroupMsg(fromGroup,helpMessage);
+        }
+
+        if (msg.contains("我要抽")){
+            String ssrWanted = msg.replace("我要抽","");
+            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"正在帮你抽卡...");
+            boolean gotSSR=false;
+            int picks=0;
+            while (!gotSSR){
+                picks++;
+                if (OneShot_HowManyTimes().equals(ssrWanted))
+                    gotSSR=true;
+            }
+            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"你花费了"+picks+"张神秘的符咒，终于召唤出了"+ssrWanted+"!");
         }
 
         return MSG_IGNORE;
