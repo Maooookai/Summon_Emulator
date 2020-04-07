@@ -138,7 +138,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         Summon_emulator yys = new Summon_emulator();
         yys.startup();// 程序运行开始 调用应用初始化方法
         yys.enable();// 程序初始化完成后，启用应用，让应用正常工作
-        //yys.groupMsg(0,10001,123456,1225455,"","我要抽浮世青行灯",0);
+        yys.groupMsg(0,10001,123456,1225455,"","我要抽大鹿男",0);
         //System.out.println(OneShot());
         yys.exit();// 最后程序运行结束，调用exit方法
     }
@@ -269,18 +269,49 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             CQ.sendGroupMsg(fromGroup,helpMessage);
         }
 
-        if (msg.contains("我要抽")){
-            String ssrWanted = msg.replace("我要抽","");
-            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"正在帮你抽卡...");
-            boolean gotSSR=false;
-            int picks=0;
-            while (!gotSSR){
-                picks++;
-                if (OneShot_HowManyTimes().equals(ssrWanted))
-                    gotSSR=true;
+        if (msg.contains("我要抽")) {
+            String ssrWanted = msg.replace("我要抽", "");
+            boolean SSRExists = false;
+            for (String s : SSR) {
+                if (s.equals(ssrWanted)) {
+                    SSRExists = true;
+                    break;
+                }
             }
-            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"你花费了"+picks+"张神秘的符咒，终于召唤出了"+ssrWanted+"!");
+            for (String s : SR) {
+                if (s.equals(ssrWanted)) {
+                    SSRExists = true;
+                    break;
+                }
+            }
+            for (String s : R) {
+                if (s.equals(ssrWanted)) {
+                    SSRExists = true;
+                    break;
+                }
+            }
+            for (String s : SP) {
+                if (s.equals(ssrWanted)) {
+                    SSRExists = true;
+                    break;
+                }
+            }
+            if (SSRExists) {
+                CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
+                boolean gotSSR = false;
+                int picks = 0;
+                while (!gotSSR) {
+                    picks++;
+                    if (OneShot_HowManyTimes().equals(ssrWanted))
+                        gotSSR = true;
+                }
+                CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你花费了" + picks + "张神秘的符咒，终于召唤出了" + ssrWanted + "!");
+            }
+            else {
+                CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你抽光了所有的符咒，并没有抽到"+ssrWanted+"。");
+            }
         }
+
 
         return MSG_IGNORE;
     }
