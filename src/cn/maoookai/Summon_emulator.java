@@ -22,6 +22,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     public static String[] four_stars = {"安比尔","梅","红云","坚雷","桃金娘","苏苏洛","格雷伊","猎蜂","阿消","地灵","深海色","谷米","蛇屠箱","角峰","调香师","末药","暗索","砾","慕斯","艾丝黛尔","霜叶","缠丸","杜宾","红豆","清道夫","讯使","白雪","流星","杰西卡","远山","夜烟"};
     public static String[] three_stars = {"斑点","泡普卡","月见夜","空爆","梓兰","史都华德","安塞尔","芙蓉","炎熔","安德切尔","克洛丝","米格鲁","卡缇","玫兰莎","翎羽","香草","芬"};
     public static String helpMessage = "一个小动物聊天机器人，抽卡仅供娱乐，发送十连或者单抽即可抽卡！更多描述待补充...";
+    public static int[] diceNumber ={1,2,3,4,5,6};
 
     static int Counter(int total) {
             Random random = new Random();
@@ -71,7 +72,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         }
 
                        /*抽卡部分*/
-        static String OneShot() throws IOException {
+        static String OneShot() {
             Random gotCard = new Random();
             String oneResult;
             int result = gotCard.nextInt(1000);
@@ -86,7 +87,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             return oneResult;
         }
 
-    static String OneShot2x() throws IOException {
+    static String OneShot2x() {
         Random gotCard = new Random();
         String oneResult;
         int result = gotCard.nextInt(1000);
@@ -101,7 +102,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         return oneResult;
     }
 
-    static String OneShot_Arknights() throws IOException {
+    static String OneShot_Arknights() {
         Random gotCard = new Random();
         String oneResult;
         int result = gotCard.nextInt(1000);
@@ -132,13 +133,13 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     }
 
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) {
         CQ = new CQDebug();
         CQ.logInfo("[JCQ] TEST Demo", "测试启动");
         Summon_emulator yys = new Summon_emulator();
         yys.startup();// 程序运行开始 调用应用初始化方法
         yys.enable();// 程序初始化完成后，启用应用，让应用正常工作
-        yys.groupMsg(0,10001,123456,1225455,"","我要抽大鹿男",0);
+        yys.groupMsg(0,10001,123456,1225455,"","roll2",0);
         //System.out.println(OneShot());
         yys.exit();// 最后程序运行结束，调用exit方法
     }
@@ -267,6 +268,16 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         if (msg.equals("关于")){
             CQ.sendGroupMsg(fromGroup,helpMessage);
+        }
+
+        if (msg.equals("roll")){
+            String rolledDiceNumber = String.valueOf(diceNumber[Counter(diceNumber.length)]);
+            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"你摇到了"+rolledDiceNumber);
+        }
+
+        if (msg.equals("roll2")){
+            String rolledDiceNumber = String.valueOf(diceNumber[Counter(diceNumber.length)]+diceNumber[Counter(diceNumber.length)]);
+            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"你摇到了"+rolledDiceNumber);
         }
 
         if (msg.contains("我要抽")) {
