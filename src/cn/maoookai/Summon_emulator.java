@@ -92,13 +92,13 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         String oneResult;
         int result = gotCard.nextInt(1000);
         if (result < 762)
-            oneResult = RPicker();
+            oneResult = "R"+'\t'+RPicker();
         else if (result < 962)
-            oneResult = SRPicker();
+            oneResult = "SR"+'\t'+SRPicker();
         else if (result < 987)
-            oneResult = SSRPicker();
+            oneResult = "SSR"+'\t'+SSRPicker();
         else
-            oneResult = SPPicker();
+            oneResult = "SP"+'\t'+SPPicker();
         return oneResult;
     }
 
@@ -132,16 +132,31 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         return oneResult;
     }
 
+    static String OneShot_HowManyTimes2x(){
+        Random gotCard = new Random();
+        String oneResult;
+        int result = gotCard.nextInt(1000);
+        if (result < 762)
+            oneResult = RPicker();
+        else if (result < 962)
+            oneResult = SRPicker();
+        else if (result < 987)
+            oneResult = SSRPicker();
+        else
+            oneResult = SPPicker();
+        return oneResult;
+    }
+
 
     public static void main(String[] args) {
         CQ = new CQDebug();
         CQ.logInfo("[JCQ] TEST Demo", "测试启动");
         Summon_emulator yys = new Summon_emulator();
-        yys.startup();// 程序运行开始 调用应用初始化方法
-        yys.enable();// 程序初始化完成后，启用应用，让应用正常工作
-        yys.groupMsg(0,10001,123456,1225455,"","roll2",0);
+        yys.startup();
+        yys.enable();
+        //yys.groupMsg(0,10001,123456,1225455,"","kkjj",0);
         //System.out.println(OneShot());
-        yys.exit();// 最后程序运行结束，调用exit方法
+        yys.exit();
     }
 
     public String appInfo() {
@@ -182,6 +197,11 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             Anonymous anonymous = CQ.getAnonymous(fromAnonymous);
         }
 
+        int repeatCalc = Counter(100);
+        if (repeatCalc>=99){
+            CQ.sendGroupMsg(fromGroup,msg);
+        }
+
         String result = null;
         String result1 = null;
         String result2 = null;
@@ -208,7 +228,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         if (msg.equals("十连")){
             try {
-                /*result1 = OneShot2x();
+                result1 = OneShot2x();
                 result2 = OneShot2x();
                 result3 = OneShot2x();
                 result4 = OneShot2x();
@@ -217,9 +237,9 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 result7 = OneShot2x();
                 result8 = OneShot2x();
                 result9 = OneShot2x();
-                result10 = OneShot2x();*/
+                result10 = OneShot2x();
                 //概率up
-                result1 = OneShot();
+                /*result1 = OneShot();
                 result2 = OneShot();
                 result3 = OneShot();
                 result4 = OneShot();
@@ -228,7 +248,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 result7 = OneShot();
                 result8 = OneShot();
                 result9 = OneShot();
-                result10 = OneShot();
+                result10 = OneShot();*/
             } catch (Exception e) {
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
@@ -280,6 +300,10 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"你摇到了"+rolledDiceNumber);
         }
 
+        /*if (msg.contains("kk")||msg.contains("Kk")||msg.contains("KK")||msg.contains("kK")||msg.contains("看看")){
+            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"KKJJ");
+        }*/
+
         if (msg.contains("我要抽")) {
             String ssrWanted = msg.replace("我要抽", "");
             boolean SSRExists = false;
@@ -313,7 +337,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 int picks = 0;
                 while (!gotSSR) {
                     picks++;
-                    if (OneShot_HowManyTimes().equals(ssrWanted))
+                    if (OneShot_HowManyTimes2x().equals(ssrWanted))
                         gotSSR = true;
                 }
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你花费了" + picks + "张神秘的符咒，终于召唤出了" + ssrWanted + "!");
