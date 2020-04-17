@@ -1,7 +1,7 @@
 # 抽卡模拟器
 _本插件基于[JCQ-CoolQ](https://gitee.com/meowy/JCQ-CoolQ)制作_
 
-当前版本1.0.6
+当前版本1.0.7
 
 目前支持阴阳师和明日方舟的抽卡模拟
 

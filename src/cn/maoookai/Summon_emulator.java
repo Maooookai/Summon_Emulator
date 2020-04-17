@@ -10,6 +10,8 @@ import com.sobte.cqp.jcq.entity.IMsg;
 import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
 
+import javax.swing.*;
+
 
 public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 
@@ -23,6 +25,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     public static String[] three_stars = {"斑点","泡普卡","月见夜","空爆","梓兰","史都华德","安塞尔","芙蓉","炎熔","安德切尔","克洛丝","米格鲁","卡缇","玫兰莎","翎羽","香草","芬"};
     public static String helpMessage = "一个小动物聊天机器人，抽卡仅供娱乐，发送十连或者单抽即可抽卡！更多描述待补充...";
     public static int[] diceNumber ={1,2,3,4,5,6};
+    public static boolean isUpEnabled = true;
 
     static int Counter(int total) {
             Random random = new Random();
@@ -154,7 +157,6 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         Summon_emulator yys = new Summon_emulator();
         yys.startup();
         yys.enable();
-        //yys.groupMsg(0,10001,123456,1225455,"","kkjj",0);
         //System.out.println(OneShot());
         yys.exit();
     }
@@ -165,10 +167,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     }
 
     public int startup() {
-        // 获取应用数据目录(无需储存数据时，请将此行注释)
-        String appDirectory = CQ.getAppDirectory();
-        // 返回如：D:\CoolQ\app\com.sobte.cqp.jcq\app\com.example.demo\
-        // 应用的所有数据、配置【必须】存放于此目录，避免给用户带来困扰。
+        //String appDirectory = CQ.getAppDirectory();
         return 0;
     }
 
@@ -187,15 +186,10 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     }
 
     public int privateMsg(int subType, int msgId, long fromQQ, String msg, int font) {
-        // 这里处理消息
-        //CQ.sendPrivateMsg(fromQQ, "你发送了这样的消息：" + msg + "\n来自Java插件");
         return MSG_IGNORE;
     }
 
     public int groupMsg(int subType, int msgId, long fromGroup, long fromQQ, String fromAnonymous, String msg, int font) {
-        if (fromQQ == 80000000L && !fromAnonymous.equals("")) {
-            Anonymous anonymous = CQ.getAnonymous(fromAnonymous);
-        }
 
         int repeatCalc = Counter(100);
         if (repeatCalc>=99){
@@ -216,8 +210,10 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         if (msg.equals("抽卡")){
             try {
-                result = OneShot2x();
-                //result = OneShot();
+                if (isUpEnabled)
+                    result = OneShot2x();
+                else
+                    result = OneShot();
             } catch (Exception e) {
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
@@ -228,27 +224,30 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         if (msg.equals("十连")){
             try {
-                result1 = OneShot2x();
-                result2 = OneShot2x();
-                result3 = OneShot2x();
-                result4 = OneShot2x();
-                result5 = OneShot2x();
-                result6 = OneShot2x();
-                result7 = OneShot2x();
-                result8 = OneShot2x();
-                result9 = OneShot2x();
-                result10 = OneShot2x();
-                //概率up
-                /*result1 = OneShot();
-                result2 = OneShot();
-                result3 = OneShot();
-                result4 = OneShot();
-                result5 = OneShot();
-                result6 = OneShot();
-                result7 = OneShot();
-                result8 = OneShot();
-                result9 = OneShot();
-                result10 = OneShot();*/
+                if (isUpEnabled){
+                    result1 = OneShot2x();
+                    result2 = OneShot2x();
+                    result3 = OneShot2x();
+                    result4 = OneShot2x();
+                    result5 = OneShot2x();
+                    result6 = OneShot2x();
+                    result7 = OneShot2x();
+                    result8 = OneShot2x();
+                    result9 = OneShot2x();
+                    result10 = OneShot2x();
+                }
+                else {
+                    result1 = OneShot();
+                    result2 = OneShot();
+                    result3 = OneShot();
+                    result4 = OneShot();
+                    result5 = OneShot();
+                    result6 = OneShot();
+                    result7 = OneShot();
+                    result8 = OneShot();
+                    result9 = OneShot();
+                    result10 = OneShot();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
@@ -300,10 +299,6 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"你摇到了"+rolledDiceNumber);
         }
 
-        /*if (msg.contains("kk")||msg.contains("Kk")||msg.contains("KK")||msg.contains("kK")||msg.contains("看看")){
-            CQ.sendGroupMsg(fromGroup,CC.at(fromQQ)+"KKJJ");
-        }*/
-
         if (msg.contains("我要抽")) {
             String ssrWanted = msg.replace("我要抽", "");
             boolean SSRExists = false;
@@ -346,8 +341,6 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你抽光了所有的符咒，并没有抽到"+ssrWanted+"。");
             }
         }
-
-
         return MSG_IGNORE;
     }
 
@@ -377,13 +370,14 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     }
 
     public int requestAddFriend(int subtype, int sendTime, long fromQQ, String msg, String responseFlag) {
+        CQ.sendPrivateMsg(1220568032L,fromQQ+"在"+sendTime+"添加我为好友,"+"附加消息为"+msg);
         return MSG_IGNORE;
     }
 
     public int requestAddGroup(int subtype, int sendTime, long fromGroup, long fromQQ, String msg,
                                String responseFlag) {
+        CQ.sendPrivateMsg(1220568032L,fromQQ+"在"+sendTime+"拉我进群："+fromGroup+",附加消息为"+msg);
         return MSG_IGNORE;
     }
-
 
 }
