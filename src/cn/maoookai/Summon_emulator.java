@@ -9,6 +9,7 @@ import com.sobte.cqp.jcq.entity.ICQVer;
 import com.sobte.cqp.jcq.entity.IMsg;
 import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
+import sun.org.mozilla.javascript.internal.EcmaError;
 
 import javax.swing.*;
 
@@ -157,7 +158,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         Summon_emulator yys = new Summon_emulator();
         yys.startup();
         yys.enable();
-        yys.groupMsg(0, 10006, 3456789012L, 3333333334L, "", "/help", 0);
+        yys.groupMsg(0, 10006, 3456789012L, 3333333334L, "", "/yxh 1 2", 0);
         yys.exit();
     }
 
@@ -290,7 +291,11 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         if(msg.contains("/yxh")){
             String[] splitString=msg.split("\\s+");
-            CQ.sendGroupMsg(fromGroup,splitString[1] + splitString[2] + "是怎么回事呢？" + splitString[1] + "相信大家都很熟悉，但是" + splitString[1] +  splitString[2] + "是怎么回事呢，下面就让小编带大家一起了解吧。" + '\n' + splitString[1] +  splitString[2] + "其实就是" + splitString[1] +  splitString[2] + "，大家可能会很惊讶" + splitString[1] + "怎么会" + splitString[2] + "呢？但事实就是这样，小编也感到非常惊讶。" + '\n' + "这就是关于" + splitString[1] +  splitString[2] + "的事情了，大家有什么想法呢，欢迎在评论区告诉小编一起讨论哦！");
+            try {
+                CQ.sendGroupMsg(fromGroup,splitString[1] + splitString[2] + "是怎么回事呢？" + splitString[1] + "相信大家都很熟悉，但是" + splitString[1] +  splitString[2] + "是怎么回事呢，下面就让小编带大家一起了解吧。" + '\n' + splitString[1] +  splitString[2] + "其实就是" + splitString[1] +  splitString[2] + "，大家可能会很惊讶" + splitString[1] + "怎么会" + splitString[2] + "呢？但事实就是这样，小编也感到非常惊讶。" + '\n' + "这就是关于" + splitString[1] +  splitString[2] + "的事情了，大家有什么想法呢，欢迎在评论区告诉小编一起讨论哦！");
+            } catch (Exception e) {
+                CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "输入的格式不正确！");
+            }
         }
 
         if (msg.equals("/help")){
