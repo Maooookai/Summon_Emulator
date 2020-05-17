@@ -1,5 +1,4 @@
 package cn.maoookai;
-import java.io.*;
 import java.util.Random;
 
 import com.sobte.cqp.jcq.entity.Anonymous;
@@ -9,15 +8,13 @@ import com.sobte.cqp.jcq.entity.ICQVer;
 import com.sobte.cqp.jcq.entity.IMsg;
 import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
-import sun.org.mozilla.javascript.internal.EcmaError;
 
-import javax.swing.*;
 
 
 public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 
     public static String[] SP ={"少羽大天狗","炼狱茨木童子","稻荷神御馔津","苍风一目连","赤影妖刀姬","御怨般若","骁浪荒川之主","烬天玉藻前","鬼王酒吞童子","天剑韧心鬼切","聆海金鱼姬","浮世青行灯"};
-    public static String[] SSR ={"大天狗","酒吞童子","荒川之主","阎魔","小鹿男","茨木童子","青行灯","妖刀姬","一目连","花鸟卷","辉夜姬","荒","彼岸花","雪童子","山风","玉藻前","御馔津","面灵气","鬼切","白藏主","八岐大蛇","不知火","大岳丸","泷夜叉姬","云外镜","鬼童丸","缘结神"};
+    public static String[] SSR ={"大天狗","酒吞童子","荒川之主","阎魔","小鹿男","茨木童子","青行灯","妖刀姬","一目连","花鸟卷","辉夜姬","荒","彼岸花","雪童子","山风","玉藻前","御馔津","面灵气","鬼切","白藏主","八岐大蛇","不知火","大岳丸","泷夜叉姬","云外镜","鬼童丸","缘结神","铃鹿御前"};
     public static String[] SR ={"桃花妖","雪女","鬼使白","鬼使黑","孟婆","犬神","骨女","鬼女红叶","跳跳哥哥","傀儡师","海坊主","判官","凤凰火","吸血姬","妖狐","妖琴师","食梦貘","清姬","镰鼬","姑获鸟","二口女","白狼","樱花妖","惠比寿","络新妇","般若","青坊主","夜叉","黑童子","白童子","烟烟罗","金鱼姬","鸩","以津真天","匣中少女","书翁","百目鬼","追月神","熏","弈","猫掌柜","於菊虫","一反木绵","入殓师","化鲸","久次良","蟹姬","纸舞","星熊童子","风狸"};
     public static String[] R ={"三尾狐","座敷童子","鲤鱼精","九命猫","狸猫","河童","童男","童女","饿鬼","巫蛊师","鸦天狗","食发鬼","武士之灵","雨女","跳跳弟弟","跳跳妹妹","兵俑","丑时之女","独眼小僧","铁鼠","椒图","管狐","山兔","萤草","山童","首无","觉","青蛙瓷器","古笼火","虫师"};
     public static String[] six_stars = {"刻俄柏","阿","煌","莫斯提马","麦哲伦","赫拉格","黑","陈","斯卡蒂","银灰","塞雷娅","星熊","夜莺","闪灵","安洁莉娜","艾雅法拉","伊芙利特","推进之王","能天使"};
@@ -154,11 +151,11 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
     public static void main(String[] args) {
         CQ = new CQDebug();
-        CQ.logInfo("[JCQ] TEST Demo", "测试启动");
+        CQ.logInfo("test", "测试启动");
         Summon_emulator yys = new Summon_emulator();
         yys.startup();
         yys.enable();
-        yys.groupMsg(0, 10006, 3456789012L, 3333333334L, "", "/yxh 1 2", 0);
+        //yys.groupMsg(0, 10006, 3456789012L, 3333333334L, "", "十连", 0);
         yys.exit();
     }
 
@@ -210,6 +207,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         String result10 = null;
 
         if (msg.equals("抽卡")){
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
             try {
                 if (isUpEnabled)
                     result = OneShot2x();
@@ -219,11 +217,17 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
             }
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你抽到了 " + result);
         }
 
 
         if (msg.equals("十连")){
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
             try {
                 if (isUpEnabled){
                     result1 = OneShot2x();
@@ -253,6 +257,11 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
             }
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if (isUpEnabled)
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你的十连结果为... " + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10 + "\n" + "当前2.5倍SSR/SP概率提升已开启");
             else
@@ -261,16 +270,23 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
 
         if (msg.equals("寻访")){
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
             try {
                 result = OneShot_Arknights();
             } catch (Exception e) {
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
             }
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你抽到了 " + result);
         }
 
         if (msg.equals("十连寻访")){
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
             try {
                 result1 = OneShot_Arknights();
                 result2 = OneShot_Arknights();
@@ -285,6 +301,11 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             } catch (Exception e) {
                 e.printStackTrace();
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + e);
+            }
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你的十连结果为... " + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10);
         }
@@ -341,6 +362,11 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             }
             if (SSRExists) {
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 boolean gotSSR = false;
                 int picks = 0;
                 while (!gotSSR) {
