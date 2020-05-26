@@ -1,14 +1,18 @@
 package cn.maoookai;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
-import com.sobte.cqp.jcq.entity.Anonymous;
 import com.sobte.cqp.jcq.entity.CQDebug;
-import com.sobte.cqp.jcq.entity.GroupFile;
 import com.sobte.cqp.jcq.entity.ICQVer;
 import com.sobte.cqp.jcq.entity.IMsg;
 import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
-
+import net.sf.json.JSONObject;
 
 
 public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
@@ -22,71 +26,77 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     public static String[] four_stars = {"安比尔","梅","红云","坚雷","桃金娘","苏苏洛","格雷伊","猎蜂","阿消","地灵","深海色","谷米","蛇屠箱","角峰","调香师","末药","暗索","砾","慕斯","艾丝黛尔","霜叶","缠丸","杜宾","红豆","清道夫","讯使","白雪","流星","杰西卡","远山","夜烟"};
     public static String[] three_stars = {"斑点","泡普卡","月见夜","空爆","梓兰","史都华德","安塞尔","芙蓉","炎熔","安德切尔","克洛丝","米格鲁","卡缇","玫兰莎","翎羽","香草","芬"};
     public static String helpMessage = "功能表：\n抽卡：阴阳师单抽\n十连：阴阳师十连\n我要抽xxx：一直帮你抽xxx并统计花费（阴阳师）\n寻访：明日方舟单抽\n十连寻访：明日方舟十连\n/roll：摇一个骰子\n/roll2：摇两个骰子\n/yxh 主体 事件：营销号生成器\n以上功能基本仅群聊可用。2020.5.2更新。";
+    public static String[] summonMessageLibrary = {"臨·兵·闘·者·皆·陣·列·在·前","目覚めよ、時は来た","さあ、私とともに戦ってくれ"};
     public static int[] diceNumber ={1,2,3,4,5,6};
     public static boolean isUpEnabled = true;
 
     static int Counter(int total) {
-            Random random = new Random();
-            return random.nextInt(total);
-        }
+        Random random = new Random();
+        return random.nextInt(total);
+    }
+
+    static String summonMessage(){
+        int result = Counter(summonMessageLibrary.length);
+        return (summonMessageLibrary[result]);
+    }
+
+    static String SSRPicker(){
+        int result = Counter(SSR.length);
+        return (SSR[result]);
+    }
+
+    static String SPPicker(){
+        int result = Counter(SP.length);
+        return (SP[result]);
+    }
+
+    static String SRPicker(){
+        int result = Counter(SR.length);
+        return (SR[result]);
+    }
+
+    static String RPicker(){
+        int result = Counter(R.length);
+        return (R[result]);
+    }
 
 
-        static String SSRPicker(){
-            int result = Counter(SSR.length);
-            return (SSR[result]);
-        }
+    static String Six_Stars_Picker(){
+        int result = Counter(six_stars.length);
+        return ("★★★★★★"+'\t'+six_stars[result]);
+    }
 
-        static String SPPicker(){
-            int result = Counter(SP.length);
-            return (SP[result]);
-        }
+    static String Five_Stars_Picker(){
+        int result = Counter(five_stars.length);
+        return ("★★★★★"+'\t'+five_stars[result]);
+    }
 
-        static String SRPicker(){
-            int result = Counter(SR.length);
-            return (SR[result]);
-        }
+    static String Four_Stars_Picker(){
+        int result = Counter(four_stars.length);
+        return ("★★★★"+'\t'+four_stars[result]);
+    }
 
-        static String RPicker(){
-            int result = Counter(R.length);
-            return (R[result]);
-        }
-
-
-        static String Six_Stars_Picker(){
-            int result = Counter(six_stars.length);
-            return ("★★★★★★"+'\t'+six_stars[result]);
-        }
-
-        static String Five_Stars_Picker(){
-            int result = Counter(five_stars.length);
-            return ("★★★★★"+'\t'+five_stars[result]);
-        }
-
-        static String Four_Stars_Picker(){
-            int result = Counter(four_stars.length);
-            return ("★★★★"+'\t'+four_stars[result]);
-         }
-
-        static String Three_Stars_Picker(){
-            int result = Counter(three_stars.length);
-            return ("★★★"+'\t'+three_stars[result]);
-        }
+    static String Three_Stars_Picker(){
+        int result = Counter(three_stars.length);
+        return ("★★★"+'\t'+three_stars[result]);
+    }
 
                        /*抽卡部分*/
-        static String OneShot() {
-            Random gotCard = new Random();
-            String oneResult;
-            int result = gotCard.nextInt(1000);
-            if (result < 787)
-                oneResult = "R"+'\t'+RPicker();
-            else if (result < 987)
-                oneResult = "SR"+'\t'+SRPicker();
-            else if (result < 997)
-                oneResult = "SSR"+'\t'+SSRPicker();
-            else
-                oneResult = "SP"+'\t'+SPPicker();
-            return oneResult;
-        }
+
+    static String OneShot() {
+        Random gotCard = new Random();
+        String oneResult;
+        int result = gotCard.nextInt(1000);
+        if (result < 787)
+            oneResult = "R"+'\t'+RPicker();
+        else if (result < 987)
+            oneResult = "SR"+'\t'+SRPicker();
+        else if (result < 997)
+            oneResult = "SSR"+'\t'+SSRPicker();
+        else
+            oneResult = "SP"+'\t'+SPPicker();
+        return oneResult;
+    }
 
     static String OneShot2x() {
         Random gotCard = new Random();
@@ -148,14 +158,45 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         return oneResult;
     }
 
+    static String getDailySentence(){
+        StringBuilder json = new StringBuilder();
+        String url = "http://open.iciba.com/dsapi/";
+        try {
+            URL urlObject = new URL(url);
+            URLConnection uc = urlObject.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream(), StandardCharsets.UTF_8));
+            String inputLine;
+            while ( (inputLine = in.readLine()) != null) {
+                json.append(inputLine);
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return json.toString();
+    }
+
+    static String getDailySentenceEnglish(){
+        JSONObject getDailySentence = JSONObject.fromObject(getDailySentence());
+        return getDailySentence.getString("content");
+    }
+
+    static String getDailySentenceChinese(){
+        JSONObject getDailySentence = JSONObject.fromObject(getDailySentence());
+        return getDailySentence.getString("note");
+    }
+
+    static String getCurrentDateFromDailySentence(){
+        JSONObject getDailySentence = JSONObject.fromObject(getDailySentence());
+        return getDailySentence.getString("dateline");
+    }
 
     public static void main(String[] args) {
         CQ = new CQDebug();
-        CQ.logInfo("test", "测试启动");
         Summon_emulator yys = new Summon_emulator();
         yys.startup();
         yys.enable();
-        //yys.groupMsg(0, 10006, 3456789012L, 3333333334L, "", "十连", 0);
+        yys.groupMsg(0, 10006, 3456789012L, 3333333334L, "", "正能量", 0);
         yys.exit();
     }
 
@@ -207,7 +248,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         String result10 = null;
 
         if (msg.equals("抽卡")){
-            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
+                CQ.sendGroupMsg(fromGroup, summonMessage());
             try {
                 if (isUpEnabled)
                     result = OneShot2x();
@@ -227,7 +268,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
 
         if (msg.equals("十连")){
-            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
+            CQ.sendGroupMsg(fromGroup, summonMessage());
             try {
                 if (isUpEnabled){
                     result1 = OneShot2x();
@@ -270,7 +311,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
 
         if (msg.equals("寻访")){
-            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
+            CQ.sendGroupMsg(fromGroup, summonMessage());
             try {
                 result = OneShot_Arknights();
             } catch (Exception e) {
@@ -286,7 +327,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         }
 
         if (msg.equals("十连寻访")){
-            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
+            CQ.sendGroupMsg(fromGroup, summonMessage());
             try {
                 result1 = OneShot_Arknights();
                 result2 = OneShot_Arknights();
@@ -361,7 +402,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 }
             }
             if (SSRExists) {
-                CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "正在帮你抽卡...");
+                CQ.sendGroupMsg(fromGroup, summonMessage());
                 try {
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
@@ -386,6 +427,8 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你抽光了所有的符咒，并没有抽到"+ssrWanted+"。");
             }
         }
+        if (msg.equals("每日一句") || msg.contains("正能量"))
+            CQ.sendGroupMsg(fromGroup,getCurrentDateFromDailySentence()+"每日一句\n"+getDailySentenceEnglish()+'\n'+getDailySentenceChinese());
         return MSG_IGNORE;
     }
 
@@ -394,7 +437,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     }
 
     public int groupUpload(int subType, int sendTime, long fromGroup, long fromQQ, String file) {
-        GroupFile groupFile = CQ.getGroupFile(file);
+        //GroupFile groupFile = CQ.getGroupFile(file);
         return MSG_IGNORE;
     }
 
