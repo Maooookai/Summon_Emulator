@@ -14,21 +14,22 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 
 
 public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 
-    /********式神信息********/
+    /********信息********/
 
     public static String[] SP = {"少羽大天狗", "炼狱茨木童子", "稻荷神御馔津", "苍风一目连", "赤影妖刀姬", "御怨般若", "骁浪荒川之主", "烬天玉藻前", "鬼王酒吞童子", "天剑韧心鬼切", "聆海金鱼姬", "浮世青行灯", "缚骨清姬"};
     public static String[] SSR = {"大天狗", "酒吞童子", "荒川之主", "阎魔", "小鹿男", "小鹿男", "小鹿男", "小鹿男", "小鹿男", "小鹿男", "茨木童子", "青行灯", "妖刀姬", "一目连", "花鸟卷", "辉夜姬", "荒", "彼岸花", "雪童子", "山风", "玉藻前", "御馔津", "面灵气", "鬼切", "白藏主", "八岐大蛇", "不知火", "大岳丸", "泷夜叉姬", "云外镜", "鬼童丸", "缘结神", "铃鹿御前"};
     public static String[] SR = {"桃花妖", "雪女", "鬼使白", "鬼使黑", "孟婆", "犬神", "骨女", "鬼女红叶", "跳跳哥哥", "傀儡师", "海坊主", "判官", "凤凰火", "吸血姬", "妖狐", "妖琴师", "食梦貘", "清姬", "镰鼬", "姑获鸟", "二口女", "白狼", "樱花妖", "惠比寿", "络新妇", "般若", "青坊主", "夜叉", "黑童子", "白童子", "烟烟罗", "金鱼姬", "鸩", "以津真天", "匣中少女", "书翁", "百目鬼", "追月神", "熏", "弈", "猫掌柜", "於菊虫", "一反木绵", "入殓师", "化鲸", "久次良", "蟹姬", "纸舞", "星熊童子", "风狸", "蝎女"};
     public static String[] R = {"三尾狐", "座敷童子", "鲤鱼精", "九命猫", "狸猫", "河童", "童男", "童女", "饿鬼", "巫蛊师", "鸦天狗", "食发鬼", "武士之灵", "雨女", "跳跳弟弟", "跳跳妹妹", "兵俑", "丑时之女", "独眼小僧", "铁鼠", "椒图", "管狐", "山兔", "萤草", "山童", "首无", "觉", "青蛙瓷器", "古笼火", "虫师"};
-    public static String helpMessage = "功能表：\n抽卡：阴阳师单抽\n十连：阴阳师十连\n我要抽xxx：一直帮你抽xxx并统计花费（阴阳师）\n寻访：明日方舟单抽\n十连寻访：明日方舟十连\n/roll：摇一个骰子\n/roll2：摇两个骰子\n/yxh 主体 事件：营销号生成器\n以上功能基本仅群聊可用。2020.5.2更新。";
+    public static String helpMessage = "功能表：\n抽卡：阴阳师单抽\n十连：阴阳师十连\n我要抽+xxx：抽取式神或者其他奇怪的东西\n/roll：摇一个骰子\n/roll2：摇两个骰子\n/yxh 主体 事件：营销号生成器\n今日御魂：显示今日掉落御魂\n正能量：金山词霸每日一句\n以上功能仅群聊可用。2020.6.30更新。";
     public static String[] summonMessageLibrary = {"你能抽到SSR吗", "今天的运气怎么样", "阴阳师不要偷懒喵", "已经没有蓝票了吧", "别抽了，你抽不到的", "少年，来氪个648吧", "你渴望力量吗", "十连R警告", "想想你已经多久没出货了"};
-    public static String[] summonFailLibrary = {"戳楼上一下","拍了拍楼下的屁股","放一个很响的屁","吃一只油炸蜈蚣","消耗自己1分钟的生命","询问你妈","认为自己是二次元","给要饭的捐了100元"};
-    public static String[] summonFailPlaceLibrary = {"大马路上","你书桌的柜子里","你裤子的口袋里","一个下水道","高等数学课本里","你的百度网盘","拉屎的时候","一阵西北风里","询问一位长者，并从他那","哆啦A梦的口袋里","梦里","群文件里"};
+    public static String[] summonFailLibrary = {"戳楼上一下", "拍了拍楼下的屁股", "放一个很响的屁", "在庙里求签", "消耗自己1分钟的生命", "询问你家长", "变成二次元", "在大街上撒币"};
+    public static String[] summonFailPlaceLibrary = {"大马路上", "你书桌的柜子里", "你裤子的口袋里", "一个下水道", "高等数学课本里", "你的百度网盘", "拉屎的时候", "一阵西北风里", "家里的房顶上", "哆啦A梦的口袋里", "梦里", "群文件里"};
     public static int[] diceNumber = {1, 2, 3, 4, 5, 6};
     public static boolean isUpEnabled = true;
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
@@ -39,12 +40,72 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         CQ = new CQDebug();
         Summon_emulator yys = new Summon_emulator();
         yys.startup();
-        yys.enable();
-        yys.groupMsg(0, 10006, 3456789012L, 3333333334L, "", "我要抽123", 0);
+        yys.groupMsg(0, 10006, 123456L, 3333333334L, "", "今日御魂", 0);
         yys.exit();
     }
 
-    /********抽卡计算器********/
+    /********计算器********/
+
+    static String currentSoulProvider() {
+        String currentDay = currentWeekOfDayProvider();
+        String currentSoul;
+        switch (currentDay) {
+            case "周一":
+                currentSoul = "雪幽魂、地藏像、鸣屋、网切\n魂土额外御魂：蚌精";
+                break;
+            case "周二":
+                currentSoul = "涅槃之火、三味、招财猫、狰\n魂土额外御魂：幽谷响";
+                break;
+            case "周三":
+                currentSoul = "魍魉之匣、被服、阴摩罗、魅妖\n魂土额外御魂：轮入道";
+                break;
+            case "周四":
+                currentSoul = "反枕、心眼、树妖、针女\n魂土额外御魂：蝠翼";
+                break;
+            case "周五":
+                currentSoul = "日女巳时、镜姬、钟灵、破势\n魂土额外御魂：狂骨";
+                break;
+            case "周六":
+            case "周日":
+                currentSoul = "随机掉落全部御魂（特殊御魂除外）";
+                break;
+            default:
+                currentSoul = "未知御魂";
+                break;
+        }
+        return currentSoul;
+    }
+
+    static String currentWeekOfDayProvider() {
+        Calendar calendar = Calendar.getInstance();
+        String currentDayOfWeek;
+        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+            case 1:
+                currentDayOfWeek = "周日";
+                break;
+            case 2:
+                currentDayOfWeek = "周一";
+                break;
+            case 3:
+                currentDayOfWeek = "周二";
+                break;
+            case 4:
+                currentDayOfWeek = "周三";
+                break;
+            case 5:
+                currentDayOfWeek = "周四";
+                break;
+            case 6:
+                currentDayOfWeek = "周五";
+                break;
+            case 7:
+                currentDayOfWeek = "周六";
+                break;
+            default:
+                currentDayOfWeek = "不知道星期几";
+        }
+        return currentDayOfWeek;
+    }
 
     static int Counter(int total) {
         Random random = new Random();
@@ -56,12 +117,12 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         return (summonMessageLibrary[result]);
     }
 
-    static String summonFail(){
+    static String summonFail() {
         int result = Counter(summonFailLibrary.length);
         return (summonFailLibrary[result]);
     }
 
-    static String summonFailPlace(){
+    static String summonFailPlace() {
         int result = Counter(summonFailPlaceLibrary.length);
         return (summonFailPlaceLibrary[result]);
     }
@@ -222,12 +283,36 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         if (msg.split("")[msg.length() - 1].equals("吗")) {
             int replyCalc = Counter(100);
-            if (replyCalc <= 10)
+            if (replyCalc <= 5) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 CQ.sendGroupMsg(fromGroup, msg.replace("吗", "") + "!");
+            }
         }
 
-        if (repeatCalc >= 98)
+        if (msg.split("")[msg.length() - 1].equals("吧")) {
+            int replyCalc = Counter(100);
+            if (replyCalc <= 5) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                CQ.sendGroupMsg(fromGroup, msg.replace("吧", "") + "!");
+            }
+        }
+
+        if (repeatCalc >= 99) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             CQ.sendGroupMsg(fromGroup, msg);
+        }
 
         String result = null;
         String result1 = null;
@@ -302,6 +387,10 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你的十连结果为... " + "\n" + result1 + "\n" + result2 + "\n" + result3 + "\n" + result4 + "\n" + result5 + "\n" + result6 + "\n" + result7 + "\n" + result8 + "\n" + result9 + "\n" + result10 + "\n");
         }
 
+        if (msg.equals("今日御魂")) {
+            CQ.sendGroupMsg(fromGroup, "今天是"+currentWeekOfDayProvider()+"，魂十掉落："+currentSoulProvider());
+        }
+
         if (msg.contains("/yxh")) {
             String[] splitString = msg.split("\\s+");
             try {
@@ -326,7 +415,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         }
 
         if (msg.contains("我要抽")) {
-            String ssrWanted = msg.replace("我要抽", "");
+            String ssrWanted = msg.split("我要抽")[1];
             boolean SSRExists = false;
             for (String s : SSR) {
                 if (s.equals(ssrWanted)) {
@@ -361,7 +450,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 }
                 boolean gotSSR = false;
                 int picks = 0;
-                while (!gotSSR) {
+                while (! gotSSR) {
                     picks++;
                     if (isUpEnabled) {
                         if (OneShot_HowManyTimes2x().equals(ssrWanted))
@@ -407,12 +496,12 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     }
 
     public int requestAddFriend(int subtype, int sendTime, long fromQQ, String msg, String responseFlag) {
-        CQ.sendPrivateMsg(1220568032L, fromQQ + "在" + simpleDateFormat.format(Long.valueOf(sendTime+"000")) + "添加我为好友," + "附加消息为" + msg);
+        CQ.sendPrivateMsg(1220568032L, fromQQ + "在" + simpleDateFormat.format(Long.valueOf(sendTime + "000")) + "添加我为好友," + "附加消息为" + msg);
         return MSG_IGNORE;
     }
 
     public int requestAddGroup(int subtype, int sendTime, long fromGroup, long fromQQ, String msg, String responseFlag) {
-        CQ.sendPrivateMsg(1220568032L, fromQQ + "在" + simpleDateFormat.format(Long.valueOf(sendTime+"000")) + "请求进群：" + fromGroup + ",附加消息为" + msg);
+        CQ.sendPrivateMsg(1220568032L, fromQQ + "在" + simpleDateFormat.format(Long.valueOf(sendTime + "000")) + "请求进群：" + fromGroup + ",附加消息为" + msg);
         return MSG_IGNORE;
     }
 
