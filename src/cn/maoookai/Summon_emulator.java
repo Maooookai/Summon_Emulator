@@ -281,27 +281,29 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         int repeatCalc = Counter(100);
 
-        if (msg.split("")[msg.length() - 1].equals("吗") || msg.split("")[msg.length() - 2].equals("吗")) {
-            int replyCalc = Counter(100);
-            if (replyCalc <= 5) {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        if (msg.length() > 1) {
+            if (msg.split("")[msg.length() - 1].equals("吗") || msg.split("")[msg.length() - 2].equals("吗")) {
+                int replyCalc = Counter(100);
+                if (replyCalc <= 5) {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    CQ.sendGroupMsg(fromGroup, msg.replace("吗", "") + "!");
                 }
-                CQ.sendGroupMsg(fromGroup, msg.replace("吗", "") + "!");
             }
-        }
 
-        if (msg.split("")[msg.length() - 1].equals("吧") || msg.split("")[msg.length() - 2].equals("吧")) {
-            int replyCalc = Counter(100);
-            if (replyCalc <= 5) {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if (msg.split("")[msg.length() - 1].equals("吧") || msg.split("")[msg.length() - 2].equals("吧")) {
+                int replyCalc = Counter(100);
+                if (replyCalc <= 5) {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    CQ.sendGroupMsg(fromGroup, msg.replace("吧", "") + "!");
                 }
-                CQ.sendGroupMsg(fromGroup, msg.replace("吧", "") + "!");
             }
         }
 
