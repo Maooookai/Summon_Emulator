@@ -43,4 +43,4 @@ roll2：摇两个骰子
 
 # 示例
 
-![](https://github.com/Maooookai/YYSEmulator/raw/master/%E6%95%88%E6%9E%9C%E5%9B%BE.png)
+![](https://raw.githubusercontent.com/Maooookai/Summon_Emulator/master/%E6%95%88%E6%9E%9C%E5%9B%BE.png)

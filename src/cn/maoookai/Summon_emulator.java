@@ -32,7 +32,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     public static String[] summonFailPlaceLibrary = {"大马路上", "你书桌的柜子里", "你裤子的口袋里", "一个下水道", "高等数学课本里", "你的百度网盘", "拉屎的时候", "一阵西北风里", "家里的房顶上", "哆啦A梦的口袋里", "梦里", "群文件里"};
     public static int[] diceNumber = {1, 2, 3, 4, 5, 6};
     public static boolean isUpEnabled = true;
-    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
     /********主程序********/
 
@@ -281,7 +281,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         int repeatCalc = Counter(100);
 
-        if (msg.split("")[msg.length() - 1].equals("吗")) {
+        if (msg.split("")[msg.length() - 1].equals("吗") || msg.split("")[msg.length() - 2].equals("吗")) {
             int replyCalc = Counter(100);
             if (replyCalc <= 5) {
                 try {
@@ -293,7 +293,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             }
         }
 
-        if (msg.split("")[msg.length() - 1].equals("吧")) {
+        if (msg.split("")[msg.length() - 1].equals("吧") || msg.split("")[msg.length() - 2].equals("吧")) {
             int replyCalc = Counter(100);
             if (replyCalc <= 5) {
                 try {
@@ -388,7 +388,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         }
 
         if (msg.equals("今日御魂")) {
-            CQ.sendGroupMsg(fromGroup, "今天是"+currentWeekOfDayProvider()+"，魂十掉落："+currentSoulProvider());
+            CQ.sendGroupMsg(fromGroup, "今天是" + currentWeekOfDayProvider() + "，魂十掉落：" + currentSoulProvider());
         }
 
         if (msg.contains("/yxh")) {
@@ -475,7 +475,6 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     }
 
     public int groupUpload(int subType, int sendTime, long fromGroup, long fromQQ, String file) {
-        //GroupFile groupFile = CQ.getGroupFile(file);
         return MSG_IGNORE;
     }
 
@@ -484,10 +483,20 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     }
 
     public int groupMemberDecrease(int subtype, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ) {
+        if (fromQQ == 0)
+            CQ.sendGroupMsg(fromGroup, beingOperateQQ + "退群了！");
+        else {
+            CQ.sendGroupMsg(fromGroup, fromQQ + "将" + beingOperateQQ + "踢出了群");
+        }
         return MSG_IGNORE;
     }
 
     public int groupMemberIncrease(int subtype, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ) {
+        if (fromQQ == 0)
+            CQ.sendGroupMsg(fromGroup, beingOperateQQ + "加入了本群！");
+        else {
+            CQ.sendGroupMsg(fromGroup, fromQQ + "邀请了" + beingOperateQQ + "加入本群，欢迎新人！来了的都是小可爱~");
+        }
         return MSG_IGNORE;
     }
 
