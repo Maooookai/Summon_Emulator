@@ -279,12 +279,12 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
     public int groupMsg(int subType, int msgId, long fromGroup, long fromQQ, String fromAnonymous, String msg, int font) {
 
-        int repeatCalc = Counter(100);
+        int repeatCalc = Counter(1000);
 
         if (msg.length() > 1) {
             if (msg.split("")[msg.length() - 1].equals("吗") || msg.split("")[msg.length() - 2].equals("吗")) {
                 int replyCalc = Counter(100);
-                if (replyCalc <= 5) {
+                if (replyCalc <= 50) {
                     try {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
@@ -296,7 +296,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
             if (msg.split("")[msg.length() - 1].equals("吧") || msg.split("")[msg.length() - 2].equals("吧")) {
                 int replyCalc = Counter(100);
-                if (replyCalc <= 5) {
+                if (replyCalc <= 50) {
                     try {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
@@ -307,7 +307,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             }
         }
 
-        if (repeatCalc >= 99) {
+        if (repeatCalc >= 998) {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -497,7 +497,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         if (fromQQ == 0)
             CQ.sendGroupMsg(fromGroup, beingOperateQQ + "加入了本群！");
         else {
-            CQ.sendGroupMsg(fromGroup, fromQQ + "邀请了" + beingOperateQQ + "加入本群，欢迎新人！来了的都是小可爱~");
+            CQ.sendGroupMsg(fromGroup, fromQQ + "通过了" + beingOperateQQ + "加入本群，欢迎新人！来了的都是小可爱~");
         }
         return MSG_IGNORE;
     }
