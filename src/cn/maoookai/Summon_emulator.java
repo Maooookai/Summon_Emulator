@@ -51,23 +51,23 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         String currentSoul;
         switch (currentDay) {
             case "周一":
-                currentSoul = "雪幽魂、地藏像、鸣屋、网切\n魂土额外御魂：蚌精";
+                currentSoul = "雪幽魂、地藏像、鸣屋、网切 + 蚌精\n逢魔首领：鬼灵歌姬";
                 break;
             case "周二":
-                currentSoul = "涅槃之火、三味、招财猫、狰\n魂土额外御魂：幽谷响";
+                currentSoul = "涅槃之火、三味、招财猫、狰 + 幽谷响\n逢魔首领：蜃气楼";
                 break;
             case "周三":
-                currentSoul = "魍魉之匣、被服、阴摩罗、魅妖\n魂土额外御魂：轮入道";
+                currentSoul = "魍魉之匣、被服、阴摩罗、魅妖 + 轮入道\n逢魔首领：土蜘蛛";
                 break;
             case "周四":
-                currentSoul = "反枕、心眼、树妖、针女\n魂土额外御魂：蝠翼";
+                currentSoul = "反枕、心眼、树妖、针女 + 蝠翼\n逢魔首领：荒骷髅";
                 break;
             case "周五":
-                currentSoul = "日女巳时、镜姬、钟灵、破势\n魂土额外御魂：狂骨";
+                currentSoul = "日女巳时、镜姬、钟灵、破势 + 狂骨\n逢魔首领：地震鲶";
                 break;
             case "周六":
             case "周日":
-                currentSoul = "随机掉落全部御魂（特殊御魂除外）";
+                currentSoul = "随机掉落全部御魂（特殊御魂除外）\n逢魔首领：胧车";
                 break;
             default:
                 currentSoul = "未知御魂";
