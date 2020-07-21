@@ -5,6 +5,7 @@ import com.sobte.cqp.jcq.entity.ICQVer;
 import com.sobte.cqp.jcq.entity.IMsg;
 import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -13,6 +14,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
@@ -26,13 +29,16 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     public static String[] SSR = {"大天狗", "酒吞童子", "荒川之主", "阎魔", "小鹿男", "小鹿男", "小鹿男", "小鹿男", "小鹿男", "小鹿男", "茨木童子", "青行灯", "妖刀姬", "一目连", "花鸟卷", "辉夜姬", "荒", "彼岸花", "雪童子", "山风", "玉藻前", "御馔津", "面灵气", "鬼切", "白藏主", "八岐大蛇", "不知火", "大岳丸", "泷夜叉姬", "云外镜", "鬼童丸", "缘结神", "铃鹿御前"};
     public static String[] SR = {"桃花妖", "雪女", "鬼使白", "鬼使黑", "孟婆", "犬神", "骨女", "鬼女红叶", "跳跳哥哥", "傀儡师", "海坊主", "判官", "凤凰火", "吸血姬", "妖狐", "妖琴师", "食梦貘", "清姬", "镰鼬", "姑获鸟", "二口女", "白狼", "樱花妖", "惠比寿", "络新妇", "般若", "青坊主", "夜叉", "黑童子", "白童子", "烟烟罗", "金鱼姬", "鸩", "以津真天", "匣中少女", "书翁", "百目鬼", "追月神", "熏", "弈", "猫掌柜", "於菊虫", "一反木绵", "入殓师", "化鲸", "久次良", "蟹姬", "纸舞", "星熊童子", "风狸", "蝎女"};
     public static String[] R = {"三尾狐", "座敷童子", "鲤鱼精", "九命猫", "狸猫", "河童", "童男", "童女", "饿鬼", "巫蛊师", "鸦天狗", "食发鬼", "武士之灵", "雨女", "跳跳弟弟", "跳跳妹妹", "兵俑", "丑时之女", "独眼小僧", "铁鼠", "椒图", "管狐", "山兔", "萤草", "山童", "首无", "觉", "青蛙瓷器", "古笼火", "虫师"};
-    public static String helpMessage = "功能表：\n抽卡：阴阳师单抽\n十连：阴阳师十连\n我要抽+xxx：抽取式神或者其他奇怪的东西\n/roll：摇一个骰子\n/roll2：摇两个骰子\n/yxh 主体 事件：营销号生成器\n今日御魂：显示今日掉落御魂\n正能量：金山词霸每日一句\n以上功能仅群聊可用。2020.6.30更新。";
+    public static String helpMessage = "功能表：\n抽卡：阴阳师单抽\n十连：阴阳师十连\n我要抽+xxx：抽取式神或者其他奇怪的东西\n/roll：摇一个骰子\n/roll2：摇两个骰子\n/yxh 主体 事件：营销号生成器\n今日御魂：显示今日掉落御魂\n正能量/学英语：金山词霸每日一句\n翻译+待翻译的句子：将其翻译至中文\n以上功能仅群聊可用。2020.7.21更新。";
     public static String[] summonMessageLibrary = {"你能抽到SSR吗", "今天的运气怎么样", "阴阳师不要偷懒喵", "已经没有蓝票了吧", "别抽了，你抽不到的", "少年，来氪个648吧", "你渴望力量吗", "十连R警告", "想想你已经多久没出货了"};
     public static String[] summonFailLibrary = {"戳楼上一下", "拍了拍楼下的屁股", "放一个很响的屁", "在庙里求签", "消耗自己1分钟的生命", "询问你家长", "变成二次元", "在大街上撒币"};
     public static String[] summonFailPlaceLibrary = {"大马路上", "你书桌的柜子里", "你裤子的口袋里", "一个下水道", "高等数学课本里", "你的百度网盘", "拉屎的时候", "一阵西北风里", "家里的房顶上", "哆啦A梦的口袋里", "梦里", "群文件里"};
     public static int[] diceNumber = {1, 2, 3, 4, 5, 6};
     public static boolean isUpEnabled = true;
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+    public static String baiduAppID = "20190228000271995";
+    public static String baiduPrivateKey = "spvgmoXtsYjmvGFTbNZK";
+    static String icibaUrl = "http://open.iciba.com/dsapi/";
 
     /********主程序********/
 
@@ -40,7 +46,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         CQ = new CQDebug();
         Summon_emulator yys = new Summon_emulator();
         yys.startup();
-        yys.groupMsg(0, 10006, 123456L, 3333333334L, "", "今日御魂", 0);
+        yys.groupMsg(0, 10006, 123456L, 3333333334L, "", "翻译This photo was taken at a Portland protest. Learn the story behind it:", 0);
         yys.exit();
     }
 
@@ -210,11 +216,8 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         return oneResult;
     }
 
-    /********词霸每日一句********/
-
-    static String getDailySentence() {
+    static String jsonHandler(String url) {
         StringBuilder json = new StringBuilder();
-        String url = "http://open.iciba.com/dsapi/";
         try {
             URL urlObject = new URL(url);
             URLConnection uc = urlObject.openConnection();
@@ -230,19 +233,47 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
         return json.toString();
     }
 
+    /********词霸每日一句********/
+
     static String getDailySentenceEnglish() {
-        JSONObject getDailySentence = JSONObject.fromObject(getDailySentence());
+        JSONObject getDailySentence = JSONObject.fromObject(jsonHandler(icibaUrl));
         return getDailySentence.getString("content");
     }
 
     static String getDailySentenceChinese() {
-        JSONObject getDailySentence = JSONObject.fromObject(getDailySentence());
+        JSONObject getDailySentence = JSONObject.fromObject(jsonHandler(icibaUrl));
         return getDailySentence.getString("note");
     }
 
     static String getCurrentDateFromDailySentence() {
-        JSONObject getDailySentence = JSONObject.fromObject(getDailySentence());
+        JSONObject getDailySentence = JSONObject.fromObject(jsonHandler(icibaUrl));
         return getDailySentence.getString("dateline");
+    }
+
+    /********百度翻译********/
+
+    private String createSign(String beingTranslated, String salt) throws NoSuchAlgorithmException {
+        String text = baiduAppID + beingTranslated + salt + baiduPrivateKey;
+        MessageDigest md5 = MessageDigest.getInstance("md5");
+        byte[] b = text.getBytes();
+        byte[] digest = md5.digest(b);
+        char[] chars = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+        StringBuilder sb = new StringBuilder();
+        for (byte bb : digest) {
+            sb.append(chars[(bb >> 4) & 15]);
+            sb.append(chars[bb & 15]);
+        }
+        String result;
+        result = sb.toString();
+        return result;
+    }
+
+    static String translateResult(String url) {
+        JSONObject getTranslateResult = JSONObject.fromObject(jsonHandler(url));
+        String upperData = getTranslateResult.getString("trans_result");
+        JSONArray lowerData = JSONArray.fromObject(upperData);
+        JSONObject result = lowerData.getJSONObject(0);
+        return result.getString("dst");
     }
 
     /********CoolQ配置********/
@@ -283,7 +314,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
         if (msg.length() > 1) {
             if (msg.split("")[msg.length() - 1].equals("吗") || msg.split("")[msg.length() - 2].equals("吗")) {
-                int replyCalc = Counter(100);
+                int replyCalc = Counter(1000);
                 if (replyCalc <= 50) {
                     try {
                         Thread.sleep(3000);
@@ -295,7 +326,7 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
             }
 
             if (msg.split("")[msg.length() - 1].equals("吧") || msg.split("")[msg.length() - 2].equals("吧")) {
-                int replyCalc = Counter(100);
+                int replyCalc = Counter(1000);
                 if (replyCalc <= 50) {
                     try {
                         Thread.sleep(3000);
@@ -467,8 +498,26 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
                 CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你通过" + summonFail() + "然后在" + summonFailPlace() + "获得了" + ssrWanted);
             }
         }
-        if (msg.equals("每日一句") || msg.contains("正能量"))
-            CQ.sendGroupMsg(fromGroup, "词霸每日一句 " + getCurrentDateFromDailySentence() + "\n" + getDailySentenceEnglish() + '\n' + getDailySentenceChinese());
+
+        if (msg.contains("翻译") && ! msg.equals("翻译")) {
+            String beingTranslated = msg.replace("翻译", "");
+            String salt = String.valueOf(Counter(114514));
+            String sign = null;
+            try {
+                sign = createSign(beingTranslated, salt);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            String preUrl1 = "https://api.fanyi.baidu.com/api/trans/vip/translate?q=" + beingTranslated + "&from=auto&to=zh&appid=" + baiduAppID + "&salt=" + salt + "&sign=" + sign;
+            String preUrl2 = preUrl1.replace("+","");
+            String url = preUrl2.replace(" ", "%20");
+            System.out.println(url);
+            String translateResult = translateResult(url);
+            CQ.sendGroupMsg(fromGroup, "“"+beingTranslated + "”的中文是：“" + translateResult+"”");
+        }
+
+        if (msg.contains("学英语") || msg.contains("正能量"))
+            CQ.sendGroupMsg(fromGroup, getCurrentDateFromDailySentence() + " 每日一句\n" + getDailySentenceEnglish() + '\n' + getDailySentenceChinese());
         return MSG_IGNORE;
     }
 
@@ -486,18 +535,18 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
 
     public int groupMemberDecrease(int subtype, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ) {
         if (fromQQ == 0)
-            CQ.sendGroupMsg(fromGroup, beingOperateQQ + "退群了！");
+            CQ.sendGroupMsg(fromGroup, CC.at(beingOperateQQ) + "退群了！");
         else {
-            CQ.sendGroupMsg(fromGroup, fromQQ + "将" + beingOperateQQ + "踢出了群");
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "将" + CC.at(beingOperateQQ) + "踢出了群");
         }
         return MSG_IGNORE;
     }
 
     public int groupMemberIncrease(int subtype, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ) {
         if (fromQQ == 0)
-            CQ.sendGroupMsg(fromGroup, beingOperateQQ + "加入了本群！");
+            CQ.sendGroupMsg(fromGroup, CC.at(beingOperateQQ) + "加入了本群！");
         else {
-            CQ.sendGroupMsg(fromGroup, fromQQ + "通过了" + beingOperateQQ + "加入本群，欢迎新人！来了的都是小可爱~");
+            CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "通过了" + CC.at(beingOperateQQ) + "加入本群，欢迎新人！来了的都是小可爱~");
         }
         return MSG_IGNORE;
     }
@@ -507,12 +556,12 @@ public class Summon_emulator extends JcqAppAbstract implements ICQVer, IMsg, IRe
     }
 
     public int requestAddFriend(int subtype, int sendTime, long fromQQ, String msg, String responseFlag) {
-        CQ.sendPrivateMsg(1220568032L, fromQQ + "在" + simpleDateFormat.format(Long.valueOf(sendTime + "000")) + "添加我为好友," + "附加消息为" + msg);
+        CQ.sendPrivateMsg(1220568032L, CC.at(fromQQ) + "在" + simpleDateFormat.format(Long.valueOf(sendTime + "000")) + "添加我为好友," + "附加消息为" + msg);
         return MSG_IGNORE;
     }
 
     public int requestAddGroup(int subtype, int sendTime, long fromGroup, long fromQQ, String msg, String responseFlag) {
-        CQ.sendPrivateMsg(1220568032L, fromQQ + "在" + simpleDateFormat.format(Long.valueOf(sendTime + "000")) + "请求进群：" + fromGroup + ",附加消息为" + msg);
+        CQ.sendPrivateMsg(1220568032L, CC.at(fromQQ) + "在" + simpleDateFormat.format(Long.valueOf(sendTime + "000")) + "请求进群：" + fromGroup + ",附加消息为" + msg);
         return MSG_IGNORE;
     }
 
